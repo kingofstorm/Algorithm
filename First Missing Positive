@@ -1,0 +1,19 @@
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int result = 1;
+        for (int i = 0; i < nums.size(); ) {
+            if (nums[i] != result) {
+                i++;
+            } else {
+                // swap 
+                int temp = nums[result - 1];
+                nums[result - 1] = nums[i];
+                nums[i] = temp;
+                i = result++;
+            } 
+        }
+        return result;
+    }
+};
