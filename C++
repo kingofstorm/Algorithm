@@ -1,0 +1,19 @@
+
+/*重载矩形加法运算符*/
+class matrix{
+public:
+	matrix& operator+(matrix& x){
+		int m = x.a.size();
+		int n = x.a[0].size();
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				(*this).a[i][j] = (*this).a[i][j] + x.a[i][j];
+			}
+		}
+		return *this;
+	}
+	vector<vector<int>> a;
+
+};
