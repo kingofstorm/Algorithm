@@ -1,0 +1,49 @@
+
+/*华为笔试题*/
+#include <stdio.h>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<unordered_map>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int size;
+	int tmp;
+	cin >> size;
+	if (size >=20 || size < 0)
+	{
+		cout << "-1";
+		return 0;
+	}
+	vector<int>  foo;
+	
+	for (int i = 0; i < size; i++)
+	{
+		cin >> tmp;
+		foo.push_back(tmp);
+	}
+	unordered_map<int, int> hash;
+	int result_num=-1;
+	for (auto r : foo)
+		hash[r]++;
+	for (auto r : hash)
+	{
+		if (r.second == 1)
+		{
+			result_num = r.first;
+			break;
+		}
+	}
+
+	cout << result_num ;
+	return 0;
+
+}
+
+
+
+
