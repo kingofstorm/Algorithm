@@ -55,6 +55,59 @@ int main()
 
 }
 
+/*输入一个十进制的正整数，从低位开始查找，找到第一个置位（1）比特的位置
+按照如下规则对正整数进行置位比特的查找：
+1. 当查找失败时，比如输入正整数0，返回-1
+2. 当查找成功时，返回该比特的位置
+例子：
+比如 如入12，二进制表示是0000000000001100，则第一个置位比特为2
+*/
 
+
+/*注意使用long long 类型*/
+
+#include <stdio.h>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<unordered_map>
+#include<algorithm>
+using namespace std;
+
+
+int find_low_bit(long long number)
+{
+	 long long min = 1;
+	 long long max = ( min<< 62);
+	 if (number > max)
+		return -1;
+	 long long input_number=number;
+	if (input_number <= 0)
+	{
+		return -1;
+	}
+	int count = 0;
+	long long  foo = 1;
+	/*注意不要用(input_number&foo)!=1    错的*/
+	while (!(input_number&foo))
+	{
+		count++;
+		foo <<= 1;
+	}
+	return count;
+}
+int main()
+{
+	 /*long long rr= 1;
+		rr= rr<< 63;*/
+	//unsigned long long  rr= 18446744073709551615;
+	//cout << rr << endl;
+	long long in;
+	cin >> in;
+	cout<< find_low_bit(in);
+	
+	return 0;
+}
 
 
