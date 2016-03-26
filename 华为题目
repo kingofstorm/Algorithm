@@ -110,4 +110,248 @@ int main()
 	return 0;
 }
 
+/*
+华为简易排号机
+
+
+*/
+
+#include <stdio.h>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<unordered_map>
+#include<algorithm>
+#include<queue>
+using namespace std;
+void wait_Machine_for_bank(void)
+{
+	
+	int N_max = 10000;
+	int N = 0;
+	int N_normal = 0;
+	int N_vip = 0;
+	queue<int> q_normal;
+	queue<int> q_vip;
+	string s;
+	while (1)
+	{
+		int global = -1;
+		getline(cin,s);
+		if (s == "get")
+		{
+			global = 1;
+			N++;
+			N_normal = N;
+			q_normal.push(N_normal);
+			cout << N << endl;
+		}
+		if (s == "get vip")
+		{
+			global = 1;
+			N++;
+			N_vip = N;
+			q_vip.push(N_vip);
+			cout << "vip " << N << endl;
+		}
+		if (s == "call")
+		{
+			global = 1;
+			if (!q_vip.empty())
+			{
+				cout << "vip "<<q_vip.front() << endl;
+				q_vip.pop();
+			}
+			else
+			{
+				if (q_normal.empty())
+					cout << "error" << endl;
+				else
+				{
+					cout << q_normal.front() << endl;
+					q_normal.pop();
+				}
+			}
+		}
+		if ((s.size() >= 7 && s[0] == 'd') && (s[5] = 'e')&&s[2]=='l'&&s[3]=='e'&&s[4]=='t')
+		{
+			global = 1;
+			int count_state = -1;
+			int count_state1 = -1;
+			string ss = "";
+			for (int i = 7; i < s.size(); i++)
+			{
+				if ('0' <= s[i] && s[i] <= '9')
+				{
+					ss += s[i];
+				}
+				else
+				{
+					cout << "error" << endl;
+					count_state = 1;
+				}
+				count_state1 = 1;
+			}
+			if (count_state == 1)
+				continue;
+			if (count_state1 == -1)
+			{
+
+				cout << "error" << endl;
+				continue;
+
+			}
+			
+			int Num;
+			stringstream os;
+			os << ss;
+			os >> Num;
+			os.clear();
+		
+			int state = -1;
+			//int size = q_normal.size();
+			queue<int> tmp;
+			while (!q_normal.empty())
+			{
+				if (q_normal.front() != Num)
+				{
+					tmp.push(q_normal.front());
+					q_normal.pop();
+				}
+				else{
+					cout << q_normal.front() << endl;
+					q_normal.pop();
+					state += 1;
+				}
+			}
+			q_normal = tmp;
+			queue<int> tmp1;
+			while (!q_vip.empty())
+			{
+				if (q_vip.front() != Num)
+				{
+					tmp1.push(q_vip.front());
+					q_vip.pop();
+				}
+				else{
+					cout << "vip "<<q_vip.front() << endl;
+					q_vip.pop();
+					state += 1;
+				}
+			}
+			q_vip= tmp1;
+			if (state == -1)
+			{
+				cout << "error" << endl;
+			}
+
+		}
+		if (s == "count")
+		{
+			global = 1;
+			int  number = q_normal.size() + q_vip.size();
+			cout << number << endl;
+		}
+		if ((s.size()>=6&&s[5]=='N')&&s[0]=='c'&&s[1]=='o'&&s[2]=='u'&&s[3]=='n'&&s[4]=='t')
+		{
+			global = 1;
+			int count_state = -1;
+			int count_state1 = -1;///判断有没有进入for
+			string ss="";
+			for (int i = 7; i < s.size(); i++)
+			{
+				if ('0' <= s[i] && s[i] <= '9')
+				{
+					ss += s[i];
+				}
+				else
+				{
+					cout << "error" << endl;
+					count_state = 1;
+				}
+				count_state1 = 1;
+			}
+			if (count_state == 1)
+				continue;
+			if (count_state1 == -1)
+			{
+			
+				cout << "error" << endl;
+				continue;
+				
+			}
+			int N;
+			stringstream os;
+			os << ss;
+			os >> N;
+			os.clear();
+			int num1 = 0;
+			int num2 = 0;
+			queue<int> tmp1;
+			queue<int> tmp2;
+			while (!q_normal.empty())
+			{
+				if (q_normal.front() <=N)
+				{
+					num1++;
+					tmp1.push(q_normal.front());
+					q_normal.pop();
+				}
+				else
+				{
+					tmp1.push(q_normal.front());
+					q_normal.pop();	
+				}
+				
+			}
+			q_normal = tmp1;
+
+			while (!q_vip.empty())
+			{
+				if (q_vip.front() <=N)
+				{
+					num2++;
+					tmp2.push(q_vip.front());
+					q_vip.pop();
+				}
+				else
+				{
+					tmp2.push(q_vip.front());
+					q_vip.pop();
+				}
+
+			}
+			q_vip = tmp2;
+			cout << (num1 + num2) << endl;
+		}
+		if (s == "quit")
+			break;
+		if (s == "reset")
+		{
+			 global = 1;
+			 N_max = 10000;
+			 N = 0;
+			 N_normal = 0;
+		     N_vip = 0;
+			while (!q_normal.empty())
+			{
+				q_normal.pop();
+			}
+			while (!q_vip.empty())
+			{
+				q_vip.pop();
+			}
+
+		}
+		if (global ==-1)
+			cout << "error"<<endl;
+	}
+}
+int main()
+{
+	wait_Machine_for_bank();
+	return 0;
+
+}
 
