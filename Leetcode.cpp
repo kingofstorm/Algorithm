@@ -1,7 +1,17 @@
-/* 
-292 Nim Game       Easy 
+/*258. Add Digits*/
+/*easy*/
+class Solution {
+public:
+    int addDigits(int num) {
+        int result=(num-1)%9+1;
+        return result;
+    }
+};
 
-*/
+
+
+
+/* 292 Nim Game       Easy */
 class Solution {
 public:
     bool canWinNim(int n) {
