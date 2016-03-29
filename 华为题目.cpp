@@ -449,3 +449,532 @@ int main()
 	ip_transformer(num);
 	return 0;
 }
+/*成都麻将胡牌判定*/
+#include<iostream>
+#include<string>
+#include<sstream>
+#include<map>
+#include<unordered_map>
+using namespace std;
+int main()
+{
+	//string s = "1T2T3T4T6T1W2W3W5D6D7D8D8D";
+	//string s = "1T8T6W6W5D4W1T3W6W2W5D6T1T";
+	
+	string s;
+	cin >> s;
+	int global_count = 0;
+	map<int, int> T;
+	map<int, int> D;
+	map<int, int> W;
+	for (int i = 1; i <= 9; i++)
+		W[i] = 0;
+	for (int i = 1; i <= 9; i++)
+		T[i] = 0;
+	for (int i = 1; i <= 9; i++)
+		D[i] = 0;
+	for (int i = 0; i < s.size();)
+	{
+		if (s[i + 1] == 'T')
+			T[s[i] - '0']++;
+		if (s[i + 1] == 'D')
+			D[s[i] - '0']++;
+		if (s[i + 1] == 'W')
+			W[s[i] - '0']++;
+		i += 2;
+
+	}
+	map<int, int>::iterator t = T.begin();
+	map<int, int>::iterator d = D.begin();
+	map<int, int>::iterator w = W.begin();
+
+
+	////////////////////////////////处理T
+	int ppre;
+	int pre;
+
+	vector<int> tmpT;
+	for (auto a : T)
+		tmpT.push_back(a.second);
+
+	bool state = true;
+	while (state)
+	{
+		ppre = tmpT[0];
+		pre = tmpT[1];
+		state = false;
+		for (int i = 2; i < 9; i++)
+		{
+			if (ppre == 1 && pre == 0 && tmpT[i] == 1)
+			{
+				if (i + 2 < 9)
+				{
+					i = i + 2;
+					ppre = tmpT[i - 1];
+					pre = tmpT[i];
+					continue;
+				
+				}
+			}
+
+			if (ppre >= 1 && pre >= 1 && tmpT[i] >= 1)
+			{
+				tmpT[i - 2] -= 1;
+				tmpT[i - 1] -= 1;
+				tmpT[i] -= 1;
+				state = true;
+			}
+			ppre = tmpT[i - 1];
+			pre = tmpT[i];
+		}
+	}
+	
+
+	////////////////////////////D////////////////
+	vector<int> tmpD;
+	for (auto a : D)
+		tmpD.push_back(a.second);
+	
+
+	state = true;
+	while (state)
+	{
+		ppre = tmpD[0];
+		pre = tmpD[1];
+		state = false;
+		for (int i = 2; i < 9; i++)
+		{
+
+			if (ppre == 1 && pre == 0 && tmpD[i] == 1)
+			{
+				if (i + 2 < 9)
+				{
+					i = i + 2;
+					ppre = tmpD[i - 1];
+					pre = tmpD[i];
+					continue;
+
+				}
+			}
+			if (ppre >= 1 && pre >= 1 && tmpD[i] >= 1)
+			{
+				tmpD[i - 2] -= 1;
+				tmpD[i - 1] -= 1;
+				tmpD[i] -= 1;
+			}
+			ppre = tmpD[i - 1];
+			pre = tmpD[i];
+		}
+	}
+	for (int i = 0; i < 9; i++)
+	if (tmpD[i] >= 3)
+		tmpD[i] -= 3;
+
+	//////////////////////////W////////////////////////
+	vector<int> tmpW;
+	for (auto a : W)
+		tmpW.push_back(a.second);
+	state = true;
+	while (state)
+	{
+		ppre = tmpW[0];
+		pre = tmpW[1];
+		state = false;
+		for (int i = 2; i < 9; i++)
+		{
+			if (ppre == 1 && pre == 0 && tmpW[i] == 1)
+			{
+				if (i + 2 < 9)
+				{
+					i = i + 2;
+					ppre = tmpW[i - 1];
+					pre = tmpW[i];
+					continue;
+
+				}
+			}
+			if (ppre >= 1 && pre >= 1 && tmpW[i] >= 1)
+			{
+				tmpW[i - 2] -= 1;
+				tmpW[i - 1] -= 1;
+				tmpW[i] -= 1;
+			}
+			ppre = tmpW[i - 1];
+			pre = tmpW[i];
+		}
+	}
+	
+	for (int i = 0; i < 9; i++)
+	if (tmpW[i] >= 3)
+		tmpW[i] -= 3;
+
+	//////////////////////////
+
+
+	///////////////////////糊三条
+	ppre = tmpT[0];
+	pre = tmpT[1];
+		for (int i = 2; i < 9; i++)
+		{
+			if (ppre == 1 && pre == 1 && tmpT[i] == 0)////////////////////
+			{
+				if (i>2 && i < 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 2 << "T" << i + 1 << "T" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+				
+					cout << i + 1 << "T" << endl;
+					global_count = 1;
+					break;
+				}
+				
+			}
+			if(ppre==1 && pre == 0 && tmpT[i] == 1)////////////只能有一种可能
+			{
+				cout << 1 << endl;
+				cout << i<< "T" << endl;
+				global_count = 1;
+				break;
+			}
+			if (ppre ==0&& pre == 1 && tmpT[i] == 1)//////////////
+			{
+				if (i>=2 && i< 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 1 << "T" << i + 2 << "T" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+					cout << i - 1 << "T" << endl;
+					global_count = 1;
+					break;
+				}
+
+
+			
+			}
+			ppre = tmpT[i - 1];
+			pre = tmpT[i];
+		}
+///////////////////////////////////////////////
+		ppre = tmpD[0];
+		pre = tmpD[1];
+		for (int i = 2; i <9; i++)
+		{
+			if (ppre == 1 && pre == 1 && tmpD[i] == 0)
+			{
+				if (i>2 && i < 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 2 << "D" << i + 1 << "D" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+
+					cout << i + 1 << "D" << endl;
+					global_count = 1;
+					break;
+				}
+			}
+			if (ppre == 1 && pre == 0 && tmpD[i] == 1)
+			{
+				cout << i << "D" << endl;
+				global_count = 1;
+				break;
+			}
+			if (ppre == 0 && pre == 1 && tmpD[i] == 1)
+			{
+				if (i >= 2 && i< 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 1 << "D" << i + 2 << "D" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+					cout << i - 1 << "D" << endl;
+					global_count = 1;
+					break;
+				}
+			}
+			ppre = tmpD[i - 1];
+			pre = tmpD[i];
+		}
+///////////////////////////////////////////////////////////////
+		ppre = tmpW[0];
+		pre = tmpW[1];
+		for (int i = 2; i <9; i++)
+		{
+			if (ppre == 1 && pre == 1 && tmpW[i] == 0)
+			{
+				if (i>2 && i < 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 2 << "W" << i + 1 << "W" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+
+					cout << i + 1 << "W" << endl;
+					global_count = 1;
+					break;
+				}
+			}
+			if (ppre == 1 && pre == 0 && tmpW[i] == 1)
+			{
+				cout << i << "W" << endl;
+				global_count = 1;
+				break;
+			}
+			if (ppre == 0 && pre == 1 && tmpW[i] == 1)
+			{
+				if (i >= 2 && i< 8)
+				{
+					cout << 2 << endl;//两种
+					cout << i - 1 << "W" << i + 2 << "W" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+					cout << i - 1 << "W" << endl;
+					global_count = 1;
+					break;
+				}
+			}
+			ppre = tmpW[i - 1];
+			pre = tmpW[i];
+		}
+
+  ////////////////////////////////
+	
+	//糊对子
+		string res = "";
+		vector<int> res1;
+		int countN = 0;
+		for (int i = 0; i < 9;i++ )
+		{
+			if (tmpT[i] == 2)
+			{
+
+				countN++;
+				if (countN == 2)
+				{
+					cout << 2 << endl;
+					cout << res1[0] << res<<i+1<<"T"<< endl;
+					global_count = 1;
+					break;
+				}
+				else
+				{
+					res += "T";
+					res1.push_back(i + 1);
+				}
+			}
+			
+		}
+		for (int i = 0; i < 9;i++)
+		{
+			if (tmpD[i] == 2 )
+			{
+				countN++;
+				if (countN == 2)
+				{
+					cout << 2 << endl;
+					cout << res1[0] << res << i + 1 << "D" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+					res += "T";
+					res1.push_back(i + 1);
+				}
+			}
+			
+		}
+
+		for (int i = 0; i < 9; i++)
+		{
+			if (tmpW[i] == 2)
+			{
+				countN++;
+				if (countN == 2)
+				{
+					cout << 2 << endl;
+					cout << res1[0] << res << i + 1 << "W" << endl;
+					global_count = 1;
+					break;
+				}
+				else{
+					res += "T";
+					res1.push_back(i + 1);
+				}
+			}		
+		}
+
+///////////////////////////糊单个//////////////////////////
+		if (global_count == 0)
+		{
+			int i = 0;
+			for (auto r : tmpT)
+			{
+				i++;
+				if (r == 1)
+				{
+					cout << 1 << endl;
+					cout << i << "T" << endl;
+				}
+			}
+			int j = 0;
+			for (auto r : tmpD)
+			{
+				j++;
+				if (r == 1)
+				{
+					cout << 1 << endl;
+					cout << j << "D" << endl;
+				}
+			}
+			int k = 0;
+			for (auto r : tmpW)
+			{
+				k++;
+				if (r == 1)
+				{
+					cout << 1 << endl;
+					cout << k << "W" << endl;
+				}
+			}
+		}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//int count1 = 0;///三条
+//int count2 = 0;//对子
+//int count3 = 0;
+//int sum = 0;
+//int tmp = 0;
+//while (t != T.end())
+//{
+
+//	if ((*t).second > 0)
+//	{
+//		sum++;
+//		if (sum == 3)
+//		{
+//			count1 += 1;
+//			sum = 0;
+//		}
+//		//(*t).second--;
+//	}
+//	else
+//		sum = 0;
+//	if ((*t).second == 2)
+//	{
+//		count2++;
+//	}
+//	if ((*t).second == 3)
+//	{
+//		count3++;
+//	}
+//	t++;
+//}
+//cout << count1 << endl;
+//while (d != D.end())
+//{
+//	if ((*d).second == 1)
+//	{
+//		sum++;
+//		if (sum == 3)
+//		{
+//			count1 += 1;
+//			sum = 0;
+//		}
+//	}
+//	if ((*d).second != 1)
+//		sum = 0;
+//	if ((*d).second == 2)
+//	{
+//		count2++;
+//	}
+//	if ((*d).second == 3)
+//	{
+//		count3++;
+//	}
+//	d++;
+//}
+//while (w != W.end())
+//{
+//	if ((*w).second == 1)
+//	{
+//		sum++;
+//		if (sum == 3)
+//		{
+//			count1 += 1;
+//			sum = 0;
+//		}
+//	}
+//	else
+//		sum = 0;
+//	//((*w).second != 1)
+
+//	if ((*w).second == 2)
+//	{
+//		count2++;
+//	}
+//	if ((*w).second == 3)
+//	{
+//		count3++;
+//	}
+//	w++;
+//}
+
+
+
+
+
+//for (auto r : tmpT)
+//cout << "T " << r << endl;
+//for (auto r : tmpD)
+//cout << "D " << r << endl;
+//
+//for (auto r : tmpW)
+//cout << "W " << r << endl;
+/*for (auto a : T)
+cout << "T"<<a.first << " "<<a.second << endl;
+cout << endl;
+for (auto a : D)
+cout << "D"<<a.first << " " << a.second << endl;
+cout << endl;
+for (auto a : W)
+cout << "W"<<a.first << " " << a.second << endl;
+cout << endl;*/
+//if (count1 == 3 && count2 == 1)
+//{
+//	cout << "三个" << endl;
+//}
+//if (count1 == 4 && count2 == 0)
+//{
+//	cout << "对子" << endl;
+//}
