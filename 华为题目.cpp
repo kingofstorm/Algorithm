@@ -1,3 +1,74 @@
+
+/*2-35进制加法，大数相加*/
+#include<iostream>
+#include<string>
+using namespace std;
+int N_To_Int(string src, int N);
+string Int_to_N(int src, int N);
+string revert(string s)
+{
+
+	for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+	{
+		char tmp;
+		tmp = s[i];
+		s[i] = s[j];
+		s[j] = tmp;
+	}
+	return s;
+}
+int main()
+{
+	int N;
+	cin >> N;
+	if (N > 35)
+	{
+		cout << -1;
+		return 0;
+	}	
+	string s1 = "";
+	string s2 = "";
+	cin >> s1 >> s2;
+
+	s1=revert(s1);
+	s2=revert(s2);
+
+
+	string result = "";
+	int lenght1 = s1.size();
+	int lenght2 = s2.size();
+
+	int max = lenght1 > lenght2 ? lenght1 : lenght2;
+	if (lenght1<lenght2)
+		for (int i = 0; i<lenght2 - lenght1; i++)
+			s1 += '0';
+	if (lenght1>lenght2)
+		for (int i = 0; i<lenght1 - lenght2; i++)
+			s2+= '0';
+	int carry = 0;
+	for (int i = 0; i <max;i++)
+	{
+		int x;
+		if (s1[i]>'9')
+			x = s1[i] - 'a' + 10;
+		else
+			x = s1[i] - '0';
+		int y = ((s2[i]>'9')? s2[i] - 'a'+10 : s2[i] - '0');
+		int a=x+y+carry;
+		carry = a/N;
+		a = a%N;
+		char b = a > 9 ? a + 'a' - 10 : a + '0';
+		result+= b;
+	}	
+	string s_carry = "";
+	if (carry > 0)
+		s_carry = carry + '0';
+	result += s_carry;
+	result = revert(result);
+	cout << result << endl;
+	return 0;
+}
+
 /*此解法不适合N进制加法，
 调用了pow函数，开销过大!!!!!!!!!!!
 */
