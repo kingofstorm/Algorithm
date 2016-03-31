@@ -1,3 +1,68 @@
+/*此解法不适合N进制加法，
+调用了pow函数，开销过大!!!!!!!!!!!
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int N_To_Int(string src, int N);
+string Int_to_N(int src, int N);
+int main()
+{
+	int N;
+	cin >> N;
+	if (N > 35)
+	{
+		cout << -1;
+		return 0;
+
+	}
+
+	string s="";
+	string s1="";
+	cin >> s;
+	cin>> s1;
+	int result = N_To_Int(s,N) + N_To_Int(s1,N);
+	string res = Int_to_N(result,N);
+	cout << res << endl;
+	return 0;
+}
+
+int N_To_Int(string src,int N)//任意N进制数转换成10进制整数
+{
+	int le = src.size();
+	int  tmp=0;
+	for (int i = 0; i < le; i++)
+		tmp += (src[i]<='9'? src[i]-'0':src[i]-'a'+10)* pow(N, le - i - 1);
+		
+	return tmp;
+
+}
+/*10进制数转换成任意N进制*/
+string Int_to_N(int src,int N)
+{
+	int i = N;
+	string tmp="";
+	int Ns;//余数
+	int Nt;//商
+	while (src/i)
+	{
+		Ns = src%i;
+		Nt = src /i;
+		char N_char = (Ns >= 10 ? Ns + 'a' - 10 : Ns+'0');
+		tmp +=N_char;
+		src= src/i;
+	}
+	char r = ((src%N) >= 10 ? src%N + 'a' - 10 : src%N+'0');
+	tmp+= r;
+	for (int i = 0, j = tmp.size() - 1; i < j; i++, j--)
+	{
+		char res;
+		res = tmp[i];
+		tmp[i] = tmp[j];
+		tmp[j] = res;
+	}
+	return tmp;
+}
 
 /*华为笔试题
 小明是个马大哈，某天他到超市买了若干双筷子(n 小于 20)
