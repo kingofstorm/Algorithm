@@ -1,4 +1,29 @@
 
+class Solution {  
+public:  
+     string transferStr(string s){  
+        char table[128] = {0};  
+        char tmp = '0';  
+        for (int i=0; i<s.length(); i++) {  
+            char c = s.at(i);  
+            if (table[c] == 0) {  
+                table[c] = tmp++;  
+            }  
+            s[i] = table[c];  
+        }  
+        return s;  
+    }  
+    bool isIsomorphic(string s, string t) {  
+          
+        if (s.length() != t.length()) {  
+            return false;  
+        }  
+        if (transferStr(s) == transferStr(t)) {  
+            return true;  
+        }  
+        return false;  
+    }  
+}; 
 //234. Palindrome Linked List
 /**
  * Definition for singly-linked list.
