@@ -1,4 +1,4 @@
-
+/*205. Isomorphic Strings*/
 class Solution {  
 public:  
      string transferStr(string s){  
