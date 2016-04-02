@@ -1,3 +1,51 @@
+
+//234. Palindrome Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        //cout<<1<<endl;
+        ListNode *pre=new ListNode(-1);
+        pre->next=head;
+        vector<int> num;
+        int len=0;
+        //cout<<1<<endl;
+        while(pre->next!=NULL)
+        {
+            num.push_back(pre->next->val);
+            pre=pre->next;
+        }
+       
+        int tmp=-1;
+        int i=0;
+        int j=num.size()-1;
+        for(;i<j;i++,j--)
+        {
+            if(num[i]!=num[j])
+            {
+                tmp=1;
+                break;
+            }
+        }
+        cout<<tmp;
+        return tmp==1? false:true;
+    }
+};
+
+
+
+
+
+
+
+
 /*Remove Duplicate from sorted List*/
 
 /**
