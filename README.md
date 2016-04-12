@@ -83,5 +83,6 @@
     3.5索引 类比新华字典
         前缀索引  不能跨表索引 主索引 聚簇索引
         
-        
+    5 表记录查询
+    select |where| group by| having| order by
 
