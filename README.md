@@ -39,8 +39,49 @@
       describle table_name;
     
       show create table table_name;查看详细信息   字段名 数据类型 约束条件 存储引擎 默认字符集等
-      
-      
-    
+    系统变量
+        show global variables;全局系统变量
+        show session variables;会话系统变量
+        show session varaibles like ' ';
+    备份数据库
+        flush tables with read lock;
         
-      
+        unlock tables;
+    
+    3.1 Mysql数据类型
+        数值类型
+            整数：tinyint smallint mediumint int bigint
+            小数 精确小数类型 decimal
+            浮点类型 float double
+        字符串类型
+            char(n)   255
+            varchar(n) 
+            tinytext
+            
+            text
+            mediumtext
+            longtext;
+        日期类型
+            date time year datatime timestamp
+            
+            
+    3.2 创建表
+        create table_name(
+        字段n 数据类型 [约束条件]，//主键约束primary key，非空约束 检查约束 默认值约束 唯一性约束(通过唯一性索引实现) 外键约束
+        )其他选项()
+        
+    3.3修改表结构 
+    修改字段信息
+        删除字段
+            alter table table_name drop 字段
+        添加字段
+        修改字段名
+            alter table person change person_name name char(20);
+            alter table person modify name char(30)
+    修改表名
+        alter table person rename human;
+    3.5索引 类比新华字典
+        前缀索引  不能跨表索引 主索引 聚簇索引
+        
+        
+
