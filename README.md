@@ -11,3 +11,9 @@
 7：树相关算法
 8：链表相关
 
+Mysql 数据库：
+    基本操作
+      create database db_name;
+      show create database db_name'
+      use db_name;
+      drop database db_name;
