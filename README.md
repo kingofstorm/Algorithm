@@ -13,7 +13,14 @@
 
 Mysql 数据库：
     基本操作
-      create database db_name;
+      create database db_name; 
       show create database db_name'
       use db_name;
       drop database db_name;
+    MyISAM和InnoDB存储引擎
+      show engines;支持的有8种。从5.5版本开始，默认支持InnoDB。
+      
+      InnoDB 
+        InnoDB是事务安全的，如果表主要提供OLTP
+              支持外键
+      
