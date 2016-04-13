@@ -59,3 +59,60 @@ int main()
 	return 0;
 }
 
+/***改进***/
+class Solution {
+private:
+    bool isValidPosition(vector<int>& positions, int row, int col)
+    {
+        int n = positions.size(), i;
+        for(i=0; i<row; i++)
+        {
+            if(col==positions[i] || abs(row-i) == abs(col-positions[i]))
+                return false;
+        }
+
+        return true;
+    }
+
+    vector<string> convertFormat(vector<int> positions)
+    {
+        int n = positions.size(), i;
+        vector<string> result;
+        result.resize(n);
+        for(i=0; i<n; i++)
+            result[i].resize(n, '.');
+
+        for(i=0; i<n; i++)
+            result[i][positions[i]] = 'Q';
+
+        return result;
+    }
+
+    void solveNQueensHelper(vector<int>& positions, int row, vector<vector<string>>& result)
+    {
+        int i, n=positions.size();
+        for(i=0; i<n; i++)
+        {
+            if(isValidPosition(positions, row, i))
+            {
+                positions[row] = i;
+                if(row==n-1)
+                {
+                    result.push_back(convertFormat(positions));
+                    break;
+                }
+                else
+                    solveNQueensHelper(positions, row+1, result);
+            }
+        }
+    }
+
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<int> positions(n);
+        vector<vector<string>> result;
+        solveNQueensHelper(positions, 0, result);
+
+        return result;
+    }
+};
