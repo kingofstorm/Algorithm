@@ -3,6 +3,88 @@
     *******************************
     01背----------------------01bag.cpp
     
+    
+    
+    ##################################
+    	
+        #include<iostream>
+        #include<string>
+        #include<vector>
+        #include<algorithm>
+        using namespace std;
+        struct TreeNode {
+            int val;
+            struct TreeNode *left;
+            struct TreeNode *right;
+           TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+            }
+        };
+    	class LongestPath {
+	public:
+	void find(TreeNode* root,int& max,int& tmp,vector<int>&pret)
+        	{
+		        if (root == NULL)
+			        return;
+		        if (pret.back() == root->val)
+		    {
+			    tmp++;
+		    	pret.push_back(root->val);
+			    if (tmp > max)
+				max = tmp;
+	    	}
+	    	else
+		        {
+			        pret.push_back(root->val);
+		        	tmp = 1;
+	        	}
+	        find(root->left, max, tmp, pret);
+	    	find(root->right, max, tmp, pret);
+	    	pret.pop_back();
+    		}
+		int findPath(TreeNode* root) {
+		if (root == NULL)
+			return 0;
+		int max = 1;
+		int tmp = 1;
+		int pre = root->val;
+		vector<int> pret;
+		pret.push_back(pre);
+		find( root->left, max, tmp,pret);
+		find(root->right, max, tmp, pret);
+		return max;
+		// write code here
+		}
+	  };
+
+
+	TreeNode* CreateBinaryTree()
+	{
+		int N;
+		cin >> N;
+		if (N == -1)
+		return NULL;
+		TreeNode *root = new TreeNode(N);
+		root->left = CreateBinaryTree();
+		root->right = CreateBinaryTree();
+		return root;
+	}
+
+	int main(int argc, char* argv[])
+	{
+	
+
+		LongestPath path;
+		TreeNode* root = CreateBinaryTree();
+		int res = path.findPath(root);
+		cout << res<<endl;
+		return 0;
+	}
+    
+    
+    
+    
+    #################################
     4-19
     
 	vector<int> getPartition(const vector<vector<int> >& land, int n, int m) {
