@@ -1,3 +1,82 @@
+/判断一系列字符串能否手尾相连/
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<unordered_map>
+#include<deque>
+#include<sstream>
+using namespace std;
+void backtrack(int num,char** arr,int& tmp)
+{
+	if (tmp+1== num)
+	{
+		tmp = 1000;
+		return;
+	}
+	for (int i = 0; i<num; i++)
+	{
+		if (arr[i] != "-1")
+		{
+			int len = strlen(arr[i]);
+			char* a = (char*)malloc(len + 1);
+			a = arr[i];
+			arr[i] = "-1";
+			for (int j = 0; j< num; j++)
+			{
+				if (arr[j] != "-1")
+				{
+					if (a[len - 1] == arr[j][0])
+					{
+						tmp += 1;
+						backtrack(num, arr, tmp);
+						if (tmp >= 100)
+							return;
+						tmp--;
+						
+					}
+				}
+			}
+			arr[i] = a;
+			
+		}
+	}
+}
+int canArrangeWords(int num, char** arr){
+	int tmp = 0;
+	backtrack(num, arr,tmp);
+	if (tmp>=100)
+		return 1;
+	else
+		return -1;
+
+	// WRITE YOUR CODE HERE
+
+}
+
+// FUNCTION SIGNATURE ENDS
+
+// DO NOT IMPLEMENT THE main( ) METHOD
+int main()
+{
+	char **a=new char*[10];
+	for (int i = 0; i < 10; i++)
+		a[i] = new char[10];
+	a[0] = "bc";
+	a[1] = "ab";
+	a[2] = "cd";
+	a[3] = "ff";
+	a[4] = "df";
+	a[5] = "fg";
+	int res = canArrangeWords(6, a);
+	cout << res << endl;
+
+
+
+}
+
+
 /*
 二师弟的星际加法
 不能处理负数！
