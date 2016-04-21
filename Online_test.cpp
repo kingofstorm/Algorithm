@@ -1,3 +1,76 @@
+/*2016/4/21
+最短作业优先算法实现
+百度笔试题*/
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include<map>
+using namespace std;
+using namespace std;
+float waitingTimeSJF(int *requestTimes, int *durations, int n)
+{
+	map<int,int> map1;
+	for(int i=0;i<n;i++)
+	{
+		int n1=requestTimes[i];
+		int n2=durations[i];
+		map1[n1]=n2;
+	}
+
+	float exe_N=durations[0];
+
+	float sum_ALL=0;
+	map1[0]=100000;
+	for(int i=1;i<n;i++)
+	{
+		int exe_min=1000;
+		map<int,int>::iterator it;
+		map<int,int>::iterator it2;
+		for(it=map1.begin();it!=map1.end();it++)
+		{
+			if(it->first<=exe_N)
+			{ if(it->second<exe_min)
+				 {
+					 exe_min=it->second;
+					 it2=it;
+			 }
+			}
+			
+		}
+		
+		sum_ALL+=exe_N-it2->first;
+		exe_N+=it2->second;
+		it2->second=1000;
+	}
+	sum_ALL=float(sum_ALL);
+	sum_ALL=sum_ALL/n;
+	return sum_ALL;
+	// WRITE YOUR CODE HERE
+
+}
+int main()
+{
+	int a[]={0,1,3,9};
+	int b[]={2,1,7,5};
+	int N=4;
+	float res;
+	res=waitingTimeSJF(a,b,N);
+	cout<<res<<endl;
+	
+	system("pause");
+}
+
+
+
+
+// 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 0 1 0 1 0 0 
+
+
+
+
 /判断一系列字符串能否手尾相连/
 #include<iostream>
 #include<map>
