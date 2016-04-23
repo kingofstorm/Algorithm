@@ -1,3 +1,44 @@
+/*继承*/
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <cassert>
+using namespace std;
+
+class Rectangle{
+protected://不能是private
+	int width;
+	int height;
+public:
+	void Display()
+	{
+		cout<<width<<' '<<height<<endl;     
+	}
+};
+class RectangleArea:public Rectangle{
+public:
+	void Input(){
+		cin>>width>>height;
+	}
+	void Display(){//非虚函数情况下，这是函数的覆盖
+		cout<<width*height<<endl;
+	}
+};
+int main() {
+	RectangleArea r_area;
+	r_area.Input();
+	Rectangle *r;
+	r=&r_area;
+	r->Display();
+	r_area.Display();
+	system("pause");
+	return 0;
+}
+
+
+
 /*单继承*/
 #include <cmath>
 #include <cstdio>
